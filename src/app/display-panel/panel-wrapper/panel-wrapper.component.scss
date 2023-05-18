@@ -1,0 +1,46 @@
+.panel-wrapper{
+    width: 250px;
+    // height: 400px;
+}
+
+.panel-label{
+    font-size: x-small;
+}
+
+//custom styling for slider
+::ng-deep {
+  .custom-slider{
+    .ngx-slider{
+      .ngx-slider-bar {
+        background: #fff;
+        height: 2px;
+      }
+      .ngx-slider-selection {
+        background: #fff;
+      }
+      .ngx-slider-pointer {
+        width: 8px;
+        height: 16px;
+        top: auto; /* to remove the default positioning */
+        bottom: 0;
+        background-color: #fff;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        &:focus-visible{
+          outline-color: limegreen;
+        }
+        &:after {
+          display: none;
+        }
+      }
+      .ngx-slider-bubble {
+        bottom: 14px;
+        color: #fff;
+      }
+      .ngx-slider-limit {
+        font-weight: bold;
+        color: #fff!important;
+      }
+    }
+  }
+}

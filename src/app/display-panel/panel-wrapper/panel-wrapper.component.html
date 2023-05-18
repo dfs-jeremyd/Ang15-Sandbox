@@ -1,0 +1,22 @@
+<div class="panel-wrapper d-flex flex-column p-2 bg-dark text-white rounded-3 text-center">
+    <h4>Distribution Pump 1</h4>
+    <app-progress-bar></app-progress-bar>
+    <div class="d-flex flex-column">
+        <p class="mb-0 panel-label">HOA:  REMOTE</p>
+        <p class="mb-0 panel-label">ERT:  1986 HRS</p>
+    </div>
+    <div class="d-flex mb-1 px-2 py-1 bg-secondary rounded-3">
+        <p class="me-auto my-auto">MANUAL / AUTO</p>
+        <button class="btn btn-light btn-sm">{{isManual ? 'MANUAL' : 'AUTO'}}</button>
+    </div>
+    <div class="d-flex mb-1 px-2 py-1 bg-secondary rounded-3">
+        <p class="me-auto my-auto">MANUAL START</p>
+        <button class="btn btn-success btn-sm" (click)="manualMode()">START</button>
+    </div>
+    <div class="d-flex flex-column px-2 py-1 bg-secondary rounded-3">
+        <p class="me-auto my-auto">MANUAL SPEED</p>
+        <div class="custom-slider">
+            <ngx-slider [(value)]="pumpData" [options]="options" (valueChange)="logChange($event)"></ngx-slider>
+        </div>
+    </div>
+</div>
