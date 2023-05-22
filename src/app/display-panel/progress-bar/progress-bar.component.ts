@@ -1,7 +1,6 @@
 import { Component, OnDestroy, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Subscription } from 'rxjs';
-import { ControlService } from 'src/app/services/control.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-progress-bar',
@@ -11,16 +10,16 @@ import { ControlService } from 'src/app/services/control.service';
 export class ProgressBarComponent implements AfterViewInit, OnDestroy {
 
   @Input()
-  title!: string;
+  pumpId!: number;
   @ViewChild('progressBar')
   private progressBarRef!: ElementRef;
   progressBar!: Chart<"doughnut", number[], string>;
+  @Input()
+  pumpData$!: Observable<number>;
   pumpData!: number;
   pumpSub!: Subscription;
 
-  constructor(public controlService: ControlService){
-    Chart.register(...registerables);
-  }
+  constructor(){ Chart.register(...registerables); }
 
   ngAfterViewInit(): void {
     this.progressBar = new Chart(this.progressBarRef.nativeElement, {
@@ -53,10 +52,9 @@ export class ProgressBarComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.pumpSub = this.controlService.pumpLevel$.subscribe(pumpData => {
+    this.pumpSub = this.pumpData$.subscribe(pumpData => {
       this.pumpData = pumpData;
-      this.progressBar.data.datasets[0].data = [this.pumpData, 100 - this.pumpData
-      ];
+      this.progressBar.data.datasets[0].data = [this.pumpData, 100 - this.pumpData];
       this.progressBar.update();
     });
   }

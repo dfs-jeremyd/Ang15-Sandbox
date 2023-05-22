@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Options } from 'ngx-slider-v2';
-import { Subscription } from 'rxjs';
-import { ControlService } from 'src/app/services/control.service';
+import { Observable, Subscription } from 'rxjs';
+import { PumpInterface } from 'src/app/models';
 
 @Component({
   selector: 'app-panel-wrapper',
@@ -11,33 +11,27 @@ import { ControlService } from 'src/app/services/control.service';
 export class PanelWrapperComponent implements OnInit, OnDestroy{
 
   @Input()
-  title!: string;
+  pumpId!: number;
+  @Input()
+  pumpData$!: Observable<number>;
   pumpData!: number;
   pumpSub!: Subscription;
+
+  @Output()
+  sliderChangeEvent: EventEmitter<PumpInterface> = new EventEmitter();
+  
   isManual: boolean = true;
   options: Options = {
     floor: 0,
     ceil: 100,
   };
 
-  constructor(public controlService: ControlService) {  }
-
   ngOnInit(): void {
-    this.pumpSub = this.controlService.pumpLevel$.subscribe(pumpLevel => {
-      this.pumpData = pumpLevel;
-    });
+    this.pumpSub = this.pumpData$.subscribe(pumpLevel => this.pumpData = pumpLevel);
   }
 
-  logChange(event: any){
-    this.controlService.changePumpLevel(event);
-  }
-
-  manualMode(){
-    this.isManual = !this.isManual;
-    if(this.isManual){
-      this.controlService.changePumpLevel(0);
-    }
-    this.options.disabled = this.isManual;
+  logChange(event: number): void{
+    this.sliderChangeEvent.emit({event: event, pumpId: this.pumpId});
   }
 
   ngOnDestroy(): void {

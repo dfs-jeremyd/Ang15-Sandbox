@@ -1,14 +1,10 @@
-<!-- <div class="d-flex w-75 mx-auto">
-  <app-panel-wrapper></app-panel-wrapper>
-</div> -->
-
 <div class="container-fluid">
   <div class="row justify-content-center mx-auto">
     <div class="col">
-      <app-panel-wrapper title="Distribution Pump 1"></app-panel-wrapper>
+      <app-panel-wrapper [pumpId]="1" [pumpData$]="pumpData$" (sliderChangeEvent)="logChange($event)"></app-panel-wrapper>
     </div>
     <div class="col">
-      <app-panel-wrapper title="Distribution Pump 2"></app-panel-wrapper>
+      <app-panel-wrapper [pumpId]="2" [pumpData$]="pumpData1$" (sliderChangeEvent)="logChange($event)"></app-panel-wrapper>
     </div>
   </div>
 </div>
