@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { ControlService } from 'src/app/services/control.service';
@@ -8,7 +8,12 @@ import { ControlService } from 'src/app/services/control.service';
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss']
 })
-export class ProgressBarComponent implements OnInit, OnDestroy {
+export class ProgressBarComponent implements AfterViewInit, OnDestroy {
+
+  @Input()
+  title!: string;
+  @ViewChild('progressBar')
+  private progressBarRef!: ElementRef;
   progressBar!: Chart<"doughnut", number[], string>;
   pumpData!: number;
   pumpSub!: Subscription;
@@ -17,8 +22,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     Chart.register(...registerables);
   }
 
-  ngOnInit(): void {
-    this.progressBar = new Chart("progressBar", {
+  ngAfterViewInit(): void {
+    this.progressBar = new Chart(this.progressBarRef.nativeElement, {
       type: "doughnut",
       data: {
         labels: ['pump progress'],

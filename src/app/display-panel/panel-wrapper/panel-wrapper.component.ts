@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Options } from 'ngx-slider-v2';
 import { Subscription } from 'rxjs';
 import { ControlService } from 'src/app/services/control.service';
@@ -10,6 +10,8 @@ import { ControlService } from 'src/app/services/control.service';
 })
 export class PanelWrapperComponent implements OnInit, OnDestroy{
 
+  @Input()
+  title!: string;
   pumpData!: number;
   pumpSub!: Subscription;
   isManual: boolean = true;
